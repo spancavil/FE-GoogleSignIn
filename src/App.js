@@ -1,16 +1,18 @@
 import "./App.css";
 import { useEffect, useState } from "react";
+import axios from 'axios';
 
 function App() {
     const URL_BASE = "http://localhost:8888/api/v1/";
-    const [data, setData] = useState(null);
-    const [error, setError] = useState(null);
+    // const GOOGLE_CLIENT_ID =
+    //     "989227771619-nifl5ep09cfqo06ncsrj46k4r2p10gkc.apps.googleusercontent.com";
 
-    const handleSignIn = () => {
+    const [google, setGoogle] = useState(window.google);
+    /* const handleSignIn = () => {
         window.open(URL_BASE + "/auth/signin/google", "_self");
-    };
-
-    useEffect(() => {
+    }; */
+    
+    /* useEffect(() => {
         const checkAuth = async () => {
             try {
                 const response = await fetch(
@@ -34,20 +36,36 @@ function App() {
             }
         };
         checkAuth();
-    }, []);
+    }, []); */
 
-    console.log(data);
+    async function handleCredentialResponse (response) {
+        console.log("Encoded JWT ID token: " + response.credential);
+        console.log(response);
+        const respuesta = await axios.post(
+            URL_BASE + "auth/google/checkJWT", 
+        {token: response.credential});
+        console.log(respuesta);
+    }
+
+    useEffect(() => {
+        if (google){
+            google.accounts.id.initialize({
+                client_id:
+                    "989227771619-nifl5ep09cfqo06ncsrj46k4r2p10gkc.apps.googleusercontent.com",
+                callback: handleCredentialResponse,
+                accessType: 'offline',
+            });
+            google.accounts.id.renderButton(
+                document.getElementById("buttonDiv"),
+                { theme: "outline", size: "large" } // customization attributes
+            );
+            // google.accounts.id.prompt(); // also display the One Tap dialog
+        }
+    }, [google]);
 
     return (
         <div className="App">
-            <button onClick={handleSignIn}>Sign in with Google</button>
-            {error && <span>Error: {error}</span>}
-            {data && (
-            <div>
-              <span>{data.displayName}</span>
-              <img width={100} src={data.photos[0].value} alt="profile-img"/>
-            </div>
-            )}
+            <div id="buttonDiv"></div>
         </div>
     );
 }
