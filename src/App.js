@@ -1,17 +1,17 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 
 function App() {
     const URL_BASE = "http://localhost:8888/api/v1/";
-    // const GOOGLE_CLIENT_ID =
-    //     "989227771619-nifl5ep09cfqo06ncsrj46k4r2p10gkc.apps.googleusercontent.com";
+    const GOOGLE_CLIENT_ID =
+        "989227771619-nifl5ep09cfqo06ncsrj46k4r2p10gkc.apps.googleusercontent.com";
 
     const [google, setGoogle] = useState(window.google);
     /* const handleSignIn = () => {
         window.open(URL_BASE + "/auth/signin/google", "_self");
     }; */
-    
+
     /* useEffect(() => {
         const checkAuth = async () => {
             try {
@@ -38,22 +38,21 @@ function App() {
         checkAuth();
     }, []); */
 
-    async function handleCredentialResponse (response) {
+    async function handleCredentialResponse(response) {
         console.log("Encoded JWT ID token: " + response.credential);
         console.log(response);
-        const respuesta = await axios.post(
-            URL_BASE + "auth/google/checkJWT", 
-        {token: response.credential});
-        console.log(respuesta);
+        const serverResponse = await axios.post(
+            URL_BASE + "auth/signin/google",
+            { token: response.credential }
+        );
+        console.log(serverResponse);
     }
 
     useEffect(() => {
-        if (google){
+        if (google) {
             google.accounts.id.initialize({
-                client_id:
-                    "989227771619-nifl5ep09cfqo06ncsrj46k4r2p10gkc.apps.googleusercontent.com",
+                client_id: GOOGLE_CLIENT_ID,
                 callback: handleCredentialResponse,
-                accessType: 'offline',
             });
             google.accounts.id.renderButton(
                 document.getElementById("buttonDiv"),
