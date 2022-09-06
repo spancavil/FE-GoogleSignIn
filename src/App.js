@@ -39,13 +39,17 @@ function App() {
     }, []); */
 
     async function handleCredentialResponse(response) {
-        console.log("Encoded JWT ID token: " + response.credential);
-        console.log(response);
-        const serverResponse = await axios.post(
-            URL_BASE + "auth/signin/google",
-            { token: response.credential }
-        );
-        console.log(serverResponse);
+        try {
+            console.log("Encoded JWT ID token: " + response.credential);
+            console.log(response);
+            const serverResponse = await axios.post(
+                URL_BASE + "auth/signin/google",
+                { token: response.credential }
+            );
+            console.log(serverResponse);
+        } catch (error) {
+            console.log(error.response?.data);
+        }
     }
 
     useEffect(() => {
