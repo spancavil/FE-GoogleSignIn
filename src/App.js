@@ -9,7 +9,7 @@ function App() {
 
     const [google] = useState(window.google);
     const [apple] = useState(window.AppleID);
-    const [facebook] = useState(window.FB);
+    const [facebook, setFacebook] = useState(window.FB);
     /* const handleSignIn = () => {
         window.open(URL_BASE + "/auth/signin/google", "_self");
     }; */
@@ -76,6 +76,7 @@ function App() {
                 usePopup: true,
             });
         }
+
     }, [google, apple]);
 
     facebook.getLoginStatus(function (response) {
