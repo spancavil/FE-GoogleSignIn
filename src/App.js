@@ -79,9 +79,11 @@ function App() {
 
     }, [google, apple]);
 
-    facebook.getLoginStatus(function (response) {
-        console.log(response);
-    });
+    const handleFB = () => {
+        facebook.login(response => {
+            console.log(response);
+        })
+    }
 
     //Listeners for apple data
     useEffect(() => {
@@ -106,15 +108,7 @@ function App() {
                 data-border="true"
                 data-type="sign in"
             ></div>
-            <div
-                class="fb-login-button"
-                data-width=""
-                data-size="large"
-                data-button-type="login_with"
-                data-layout="rounded"
-                data-auto-logout-link="true"
-                data-use-continue-as="false"
-            ></div>
+            <button onClick={handleFB}>Facebook login</button>
         </div>
     );
 }
