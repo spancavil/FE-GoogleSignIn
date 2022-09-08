@@ -78,7 +78,7 @@ function App() {
         }
     }, [google, apple]);
 
-    facebook.getLoginStatus(function(response) {
+    facebook.getLoginStatus(function (response) {
         console.log(response);
     });
 
@@ -106,9 +106,9 @@ function App() {
                 data-type="sign in"
             ></div>
             <div
-                className="fb-login-button"
+                class="fb-login-button"
                 data-width=""
-                data-size="medium"
+                data-size="large"
                 data-button-type="login_with"
                 data-layout="rounded"
                 data-auto-logout-link="false"

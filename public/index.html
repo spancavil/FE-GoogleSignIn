@@ -44,6 +44,27 @@
       <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
       <div id="fb-root"></div>
       <!-- Este script vino de facebook login button -->
-      <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v14.0&appId=2263395217152157&autoLogAppEvents=1" nonce="5CBFthlO"></script>
+      
+      <script>
+        window.fbAsyncInit = function() {
+          FB.init({
+            appId      : '3279377942379915',
+            cookie     : true,
+            xfbml      : true,
+            version    : 'v14.0'
+          });
+            
+          FB.AppEvents.logPageView();   
+            
+        };
+
+        (function(d, s, id){
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) {return;}
+          js = d.createElement(s); js.id = id;
+          js.src = "https://connect.facebook.net/en_US/sdk.js";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+      </script>
     </body>
 </html>
