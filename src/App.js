@@ -112,7 +112,7 @@ function App() {
                 data-size="large"
                 data-button-type="login_with"
                 data-layout="rounded"
-                data-auto-logout-link="false"
+                data-auto-logout-link="true"
                 data-use-continue-as="false"
             ></div>
         </div>
