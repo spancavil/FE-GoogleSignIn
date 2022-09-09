@@ -3,57 +3,17 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 function App() {
+
     const URL_BASE = "https://grandest-fe.herokuapp.com/api/v1/";
     const GOOGLE_CLIENT_ID =
         "989227771619-nifl5ep09cfqo06ncsrj46k4r2p10gkc.apps.googleusercontent.com";
+    const FACEBOOK_API_ID = "3279377942379915";
 
     const [google] = useState(window.google);
     const [apple] = useState(window.AppleID);
     const [facebook] = useState(window.FB);
-    /* const handleSignIn = () => {
-        window.open(URL_BASE + "/auth/signin/google", "_self");
-    }; */
 
-    /* useEffect(() => {
-        const checkAuth = async () => {
-            try {
-                const response = await fetch(
-                    URL_BASE + "/auth/sessions/checkAuth",
-                    {
-                        method: "GET",
-                        credentials: "include",
-                        headers: {
-                            Accept: "application/json",
-                            "Content-Type": "application/json",
-                            "Access-Control-Allow-Credentials": true,
-                        },
-                    }
-                );
-                const data = await response.json();
-                console.log(data);
-                if (!data.message) setData(data.data.user);
-                else setError(data.message);
-            } catch (error) {
-                setError(error.message);
-            }
-        };
-        checkAuth();
-    }, []); */
-
-    async function handleGoogleCredential(response) {
-        try {
-            console.log("Encoded JWT ID token: " + response.credential);
-            console.log(response);
-            const serverResponse = await axios.post(
-                URL_BASE + "auth/signin/google",
-                { token: response.credential }
-            );
-            console.log(serverResponse);
-        } catch (error) {
-            console.log(error.response?.data);
-        }
-    }
-
+    //Initialize API's effect
     useEffect(() => {
         if (google) {
             google.accounts.id.initialize({
@@ -76,14 +36,52 @@ function App() {
                 usePopup: true,
             });
         }
+        if (facebook) {
+            facebook.init({
+                appId: FACEBOOK_API_ID,
+                cookie: false, // Enable cookies to allow the server to access the session.
+                xfbml: false, // Parse social plugins on this webpage.
+                version: "v14.0", // Use this Graph API version for this call.
+            });
+        }
+    }, [google, apple, facebook]);
 
-    }, [google, apple]);
-
-    const handleFB = () => {
-        facebook.login(response => {
+    //Handle token
+    async function handleGoogleCredential(response) {
+        try {
+            console.log("Encoded JWT ID token: " + response.credential);
             console.log(response);
-        })
+            const serverResponse = await axios.post(
+                URL_BASE + "auth/signin/google",
+                { token: response.credential }
+            );
+            console.log(serverResponse);
+        } catch (error) {
+            console.log(error.response?.data);
+        }
     }
+
+    const handleFacebookLogin = () => {
+        console.log("Entra aqui");
+        window.FB.login(
+            (response) => {
+                console.log("Entra response");
+                //El access token está en authResponse.accessToken
+                console.log(response);
+                //Traemos información
+            },
+            {scope: 'public_profile,email'}
+        );
+        //La información del usuario está en en FB.api
+        //Hay que entrar a grantear los accessos para que acceda a la información
+        window.FB.api(
+            "/me",
+            (data) => {
+                console.log("Entra a data");
+                console.log(data);
+            }
+        );
+    };
 
     //Listeners for apple data
     useEffect(() => {
@@ -99,8 +97,6 @@ function App() {
         });
     }, []);
 
-    console.log(facebook);
-
     return (
         <div className="App">
             <div id="buttonDiv"></div>
@@ -110,7 +106,7 @@ function App() {
                 data-border="true"
                 data-type="sign in"
             ></div>
-            <button onClick={handleFB}>Facebook login</button>
+            <button onClick={handleFacebookLogin}>Facebook login</button>
         </div>
     );
 }
