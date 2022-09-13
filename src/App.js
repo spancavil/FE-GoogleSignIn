@@ -72,15 +72,14 @@ function App() {
             },
             {scope: 'public_profile,email'}
         );
-        //La información del usuario está en en FB.api
-        //Hay que entrar a grantear los accessos para que acceda a la información
-        window.FB.api(
+        //La información del usuario está en en FB.api. NOTA: no traer información del usuario, lo hacemos desde el back. Solo pegar el accessToken
+        /* window.FB.api(
             "/me",
             (data) => {
                 console.log("Entra a data");
                 console.log(data);
             }
-        );
+        ); */
     };
 
     //Listeners for apple data
