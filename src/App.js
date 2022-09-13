@@ -68,7 +68,14 @@ function App() {
                 console.log("Entra response");
                 //El access token está en authResponse.accessToken
                 console.log(response);
-                //Traemos información
+                //Traemos información;
+
+                //Pegamos en signin del backend
+                /* const serverResponse = await axios.post(
+                    URL_BASE + "auth/signin/facebook",
+                    { token: response.credential }
+                );
+                console.log(serverResponse); */
             },
             {scope: 'public_profile,email'}
         );
