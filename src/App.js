@@ -4,7 +4,7 @@ import axios from "axios";
 
 function App() {
 
-    const URL_BASE = "https://grandest-fe.herokuapp.com/api/v1/";
+    const URL_BASE = "https://grandest-dev.herokuapp.com/api/v1";
     const GOOGLE_CLIENT_ID =
         "989227771619-nifl5ep09cfqo06ncsrj46k4r2p10gkc.apps.googleusercontent.com";
     const FACEBOOK_API_ID = "3279377942379915";
